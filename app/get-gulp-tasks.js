@@ -1,27 +1,24 @@
 'use strict';
 var path = require('path');
 var execFile = require('child_process').execFile;
-var _ = require('lodash');
-
-var gulpPath = path.join(__dirname, 'node_modules', 'gulp', 'bin', 'gulp.js');
-var re = /] (?:├|└)─[^\w]+(\w+)/g;
 
 module.exports = function (cb) {
-	execFile('node', [gulpPath, '--tasks', '--no-color'], function (err, stdout) {
-		if (err) {
-			return cb(err);
-		}
 
-		var match;
-		var tasks = [];
+  execFile('node', ['/usr/local/bin/grunt', '-h'], function (error, stdout) {
+    if (error) return cb(error);
+    
+    var tasks = [];
 
-		while (match = re.exec(stdout)) {
-			tasks.push(match[1]);
-		}
+    var output = stdout.split(/\n/);
 
-		tasks = _.pull(tasks, 'default');
-		tasks.unshift('default');
+    var startIndex = output.indexOf('\u001b[4mAvailable tasks\u001b[24m') + 1;
 
-		cb(null, tasks);
-	});
+    for (var i = startIndex; output[i] !== ''; i++) {
+      tasks.push(output[i].match(/\S*\b/)[0]);
+    }
+
+    cb(null, tasks);
+
+  });
+
 };
