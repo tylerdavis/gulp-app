@@ -6,7 +6,7 @@ var findupSync = require('findup-sync');
 var currentPath = require('current-path');
 var displayNotification = require('display-notification');
 var util = require('./node-util');
-var getGulpTasks = require('./get-gulp-tasks');
+var getGruntTasks = require('./get-grunt-tasks');
 
 var DEBUG = true;
 var TRAY_UPDATE_INTERVAL = 1000;
@@ -41,14 +41,14 @@ function runTask(taskName) {
 	cp.on('exit', function (code) {
 		if (code === 0) {
 			displayNotification({
-				title: 'gulp',
+				title: 'grunt',
 				subtitle: 'Finished running tasks'
 			});
 		} else {
 			console.error('Exited with error code ' + code);
 
 			displayNotification({
-				title: 'gulp',
+				title: 'grunt',
 				subtitle: 'Exited with error code ' + code,
 				sound: 'Basso'
 			});
@@ -116,7 +116,7 @@ function updateTray() {
 
 		var name = pkg.name || path.basename(dirPath, path.extname(dirPath));
 
-		getGulpTasks(function (err, tasks) {
+		getGruntTasks(function (err, tasks) {
 			if (err) {
 				console.log(err);
 				return;
@@ -132,7 +132,7 @@ var tray = new gui.Tray({
 	alticon: 'menubar-icon-alt@2x.png'
 });
 
-updateTrayMenu('No gulpfile found');
+updateTrayMenu('No gruntfile found');
 updateTray();
 
 if (DEBUG) {
