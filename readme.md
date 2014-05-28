@@ -1,4 +1,4 @@
-# gulp-app
+# grunt-app
 
 > [gulp](https://github.com/gulpjs/gulp) as an app
 
