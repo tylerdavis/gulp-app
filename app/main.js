@@ -22,8 +22,7 @@ function runTask(taskName) {
 	// TODO: find workaround for node-webkit bug:
 	// https://github.com/rogerwang/node-webkit/issues/213
 	// so I don't have to hardcode the node path
-	var gulpPath = path.join(util.dirname, 'node_modules', 'gulp', 'bin', 'gulp.js');
-	var cp = spawn('node', [gulpPath, taskName, '--no-color']);
+	var cp = spawn('node', ['/usr/local/bin/grunt', taskName, '--no-color']);
 
 	cp.stdout.setEncoding('utf8');
 	cp.stdout.on('data', function (data) {
